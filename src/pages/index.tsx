@@ -22,9 +22,6 @@ const ContentContainer = styled.div`
       margin: 0 auto;
     }
   }
-  .pokemon {
-    display: flex;
-  }
 `;
 
 const PokemonCard = styled.div`
@@ -56,7 +53,7 @@ const Home: NextPage = () => {
   const pokemon2 = trpc.useQuery(["get-pokemons-by-id", { id: pokemonId[1] }]);
 
   if (pokemon1.isLoading || pokemon2.isLoading) return null;
-
+  console.log(pokemon1)
   return (
     <div>
       <Head>
@@ -77,7 +74,6 @@ const Home: NextPage = () => {
           <PokemonCard>
             <img src={pokemon1.data?.sprites.front_default || undefined} />
             <h3>{pokemon1.data?.name.toUpperCase()}</h3>
-            {/* <button>Vote</button> */}
             <Separator size={"50px"} />
             <Button variant="contained">Vote</Button>
           </PokemonCard>
