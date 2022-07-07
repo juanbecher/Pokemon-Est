@@ -7,6 +7,7 @@ import { getOptionsForVote } from "../utils/getRandomPokemon";
 import { trpc } from "../utils/trpc";
 import { Button, CircularProgress } from "@mui/material";
 import { inferQueryResponse } from "./api/trpc/[trpc]";
+import Image from "next/image";
 
 const TitleContainer = styled.div`
   text-align: center;
@@ -24,16 +25,16 @@ const PokemonCard = styled.div`
   text-align: center;
 `;
 
-const ImagenContainer = styled.div`
-  display: flex;
-  height: 256px;
-  width: 256px;
-  img {
-    width: 100%;
-    object-fit: cover;
-    object-position: center;
-  }
-`;
+// const ImagenContainer = styled.div`
+//   /* display: flex;
+//   height: 256px;
+//   width: 256px;
+//   img {
+//     width: 100%;
+//     object-fit: cover;
+//     object-position: center;
+//   } */
+// `;
 
 const Separator = styled.div<{ size: string }>`
   height: ${(props) => props.size};
@@ -109,9 +110,11 @@ const PokemonListing: React.FC<{
 }> = (props) => {
   return (
     <PokemonCard>
-      <ImagenContainer>
-        <img src={props.pokemon.sprites.front_default || undefined} />
-      </ImagenContainer>
+      {/* <ImagenContainer> */}
+        {!props.pokemon.sprites.front_default ? <CircularProgress /> : <Image src={props.pokemon.sprites.front_default} width={256} height={256}/>}
+       
+        {/* <img src={props.pokemon.sprites.front_default || undefined} /> */}
+      {/* </ImagenContainer> */}
       <h3>{props.pokemon.name.toUpperCase()}</h3>
       <Separator size={"50px"} />
       <Button

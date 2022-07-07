@@ -1,4 +1,4 @@
-# Pokemon-est | Which pokemons is cuitest?
+# Pokemon-est | Which is the cuitest pokemon?
 
 Making some tests and learning new technology:
 - Next JS 
@@ -6,6 +6,7 @@ Making some tests and learning new technology:
 - Trpc > Allows you to easily build & consume fully typesafe APIs, without schemas or code generation.
 - Prisma > Prisma is an open source next-generation ORM.
 - PlanetScale > ServerLess database
+- Zod > Runtime validation library
 
 ## Getting Started
 

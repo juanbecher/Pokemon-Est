@@ -5,6 +5,9 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  images: {
+    domains: ['raw.githubusercontent.com'],
+  }
 }
 
 module.exports = nextConfig
