@@ -1,4 +1,4 @@
-# Pokemon-est | Which is the cuitest pokemon?
+# Pokemon-est | Which is the cutest pokemon?
 
 Making some tests and learning new technology:
 - Next JS 

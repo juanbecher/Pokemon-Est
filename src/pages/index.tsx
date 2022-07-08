@@ -68,7 +68,7 @@ const Home: NextPage = () => {
       <main>
         <Separator size={"50px"} />
         <TitleContainer>
-          <h1>Which is the cuitest pokemon?</h1>
+          <h1>Which is the cutest pokemon?</h1>
         </TitleContainer>
 
         <Separator size={"100px"} />

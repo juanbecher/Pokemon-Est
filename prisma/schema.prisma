@@ -3,11 +3,13 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
 }
 
 model Vote{
@@ -15,7 +17,22 @@ model Vote{
   id String @id @default(cuid())
   createdAt DateTime @default(now())
 
-  votedFor Int
-  votedAgainst Int
+  votedFor Pokemon @relation(name: "votedFor", fields: [votedForId], references: [id])
+  votedForId Int
+
+  votedAgainst Pokemon @relation(name: "votedAgainst", fields: [votedAgainstId], references: [id])
+  votedAgainstId Int
   // relations
+
+  @@index([votedForId])
+  @@index([votedAgainstId])
+}
+
+model Pokemon{
+  id Int @id
+
+  name String
+  spriteUrl String
+  votedFor Vote[] @relation("votedFor")
+  votedAgainst Vote[] @relation("votedAgainst")
 }
