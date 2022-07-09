@@ -14,20 +14,27 @@ export const appRouter = trpc
         id: z.number(),
       }),
     async resolve({ input }) {
-      const api = new PokemonClient();
-      const pokemon = await api.getPokemonById(input.id)
-      return {name: pokemon.name, sprites: pokemon.sprites, id: pokemon.id};
+      let pokemon_db = await prisma.pokemon.findFirst({
+      where: {id: input.id}} )
+      if(!pokemon_db){
+        const api = new PokemonClient();
+        const pokemon = await api.getPokemonById(input.id)
+        await prisma.pokemon.create({data : {name: pokemon.name , spriteUrl:pokemon.sprites.front_default || '', id: input.id}})
+        return {name: pokemon.name, spriteUrl: pokemon.sprites.front_default, id: pokemon.id};
+      }
+      
+      return {name: pokemon_db.name, spriteUrl: pokemon_db.spriteUrl, id: pokemon_db.id};
     },
   }).mutation('vote-for-pokemon', {
     input: z.object({
-      votedFor: z.number(),
-      votedAgainst: z.number()
+      votedForId: z.number(),
+      votedAgainstId: z.number()
     }),
     async resolve({input}) {
       const voteInDb = await prisma.vote.create({
         data: {
-          votedAgainst: input.votedAgainst,
-          votedFor: input.votedFor,
+          votedAgainstId: input.votedAgainstId,
+          votedForId: input.votedForId
         },
       });
       return {success: true, vote: voteInDb }

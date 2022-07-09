@@ -52,9 +52,9 @@ const Home: NextPage = () => {
   const voteMutation = trpc.useMutation(['vote-for-pokemon'])
   const voteForPokemon = (selected: number) => {
     if (selected === first) {
-      voteMutation.mutate({votedFor: first, votedAgainst: second})
+      voteMutation.mutate({votedForId: first, votedAgainstId: second})
     }else{
-      voteMutation.mutate({votedFor: second, votedAgainst: first})
+      voteMutation.mutate({votedForId: second, votedAgainstId: first})
     }
     setPokemonId(getOptionsForVote());
   };
@@ -111,7 +111,7 @@ const PokemonListing: React.FC<{
   return (
     <PokemonCard>
       {/* <ImagenContainer> */}
-        {!props.pokemon.sprites.front_default ? <CircularProgress /> : <Image src={props.pokemon.sprites.front_default} width={256} height={256}/>}
+        {!props.pokemon.spriteUrl ? <CircularProgress /> : <Image src={props.pokemon.spriteUrl} width={256} height={256}/>}
        
         {/* <img src={props.pokemon.sprites.front_default || undefined} /> */}
       {/* </ImagenContainer> */}
