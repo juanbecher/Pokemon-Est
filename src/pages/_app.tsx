@@ -19,6 +19,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
             max-width: 1200px;
             width: 95%;
             margin: 0 auto !important;
+            text-align:center;
           }
         `}
       />

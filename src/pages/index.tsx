@@ -9,9 +9,6 @@ import { Button, CircularProgress } from "@mui/material";
 import { inferQueryResponse } from "./api/trpc/[trpc]";
 import Image from "next/image";
 
-const TitleContainer = styled.div`
-  text-align: center;
-`;
 const ContentContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -24,17 +21,6 @@ const PokemonCard = styled.div`
   flex-direction: column;
   text-align: center;
 `;
-
-// const ImagenContainer = styled.div`
-//   /* display: flex;
-//   height: 256px;
-//   width: 256px;
-//   img {
-//     width: 100%;
-//     object-fit: cover;
-//     object-position: center;
-//   } */
-// `;
 
 const Separator = styled.div<{ size: string }>`
   height: ${(props) => props.size};
@@ -49,15 +35,17 @@ const Home: NextPage = () => {
   const pokemon1 = trpc.useQuery(["get-pokemons-by-id", { id: first }]);
   const pokemon2 = trpc.useQuery(["get-pokemons-by-id", { id: second }]);
 
-  const voteMutation = trpc.useMutation(['vote-for-pokemon'])
+  const voteMutation = trpc.useMutation(["vote-for-pokemon"]);
+
   const voteForPokemon = (selected: number) => {
     if (selected === first) {
-      voteMutation.mutate({votedForId: first, votedAgainstId: second})
-    }else{
-      voteMutation.mutate({votedForId: second, votedAgainstId: first})
+      voteMutation.mutate({ votedForId: first, votedAgainstId: second });
+    } else {
+      voteMutation.mutate({ votedForId: second, votedAgainstId: first });
     }
     setPokemonId(getOptionsForVote());
   };
+
   return (
     <div>
       <Head>
@@ -67,13 +55,15 @@ const Home: NextPage = () => {
       </Head>
       <main>
         <Separator size={"50px"} />
-        <TitleContainer>
-          <h1>Which is the cutest pokemon?</h1>
-        </TitleContainer>
+
+        <h1>Which is the cutest pokemon?</h1>
 
         <Separator size={"100px"} />
         <ContentContainer>
-          {pokemon1.isLoading || pokemon2.isLoading || !pokemon1.data || !pokemon2.data ? (
+          {pokemon1.isLoading ||
+          pokemon2.isLoading ||
+          !pokemon1.data ||
+          !pokemon2.data ? (
             <div
               className={css`
                 padding: 100px;
@@ -110,11 +100,12 @@ const PokemonListing: React.FC<{
 }> = (props) => {
   return (
     <PokemonCard>
-      {/* <ImagenContainer> */}
-        {!props.pokemon.spriteUrl ? <CircularProgress /> : <Image src={props.pokemon.spriteUrl} width={256} height={256}/>}
-       
-        {/* <img src={props.pokemon.sprites.front_default || undefined} /> */}
-      {/* </ImagenContainer> */}
+      {!props.pokemon.spriteUrl ? (
+        <CircularProgress />
+      ) : (
+        <Image src={props.pokemon.spriteUrl} width={256} height={256} />
+      )}
+
       <h3>{props.pokemon.name.toUpperCase()}</h3>
       <Separator size={"50px"} />
       <Button
