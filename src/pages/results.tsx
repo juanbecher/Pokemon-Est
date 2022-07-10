@@ -44,7 +44,6 @@ const Result: React.FC<{
   totalVotes: number;
 }> = ({ pokemons, totalVotes }) => {
   if (!pokemons) return null;
-
   pokemons = pokemons.sort(
     (a, b) => generateCountPercent(b) - generateCountPercent(a)
   );
@@ -54,7 +53,7 @@ const Result: React.FC<{
       <Separator size={"50px"} />
       <h1>Results - Cutest Pokemon </h1>
       <Separator size={"50px"} />
-      {/* <h3>Total votes: {totalVotes.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")}</h3> */}
+      <h3>Total votes: {totalVotes.toLocaleString()}</h3>
       <PokemonList pokemons={pokemons} />
       <Separator size={"100px"} />
       
