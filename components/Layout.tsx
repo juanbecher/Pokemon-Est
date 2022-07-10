@@ -40,7 +40,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <div
         className={css`
             position: fixed;
-            right: 70px;
+            right: 5%;
             bottom: 50px;
         `}
       >
