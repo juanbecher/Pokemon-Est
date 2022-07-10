@@ -44,7 +44,7 @@ const PokemonList: React.FC<{ pokemons: PokemonQueryResult }> = ({
   if (!pokemons) return null;
   return (
     <Container>
-      {pokemons.map((pokemon, index) => {
+      {pokemons.map((pokemon: PokemonQueryResult[number], index) => {
         return (
           <PokemonCard key={pokemon.id}>
             <div
