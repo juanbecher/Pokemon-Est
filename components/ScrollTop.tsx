@@ -37,7 +37,7 @@ const ScrollTop = () => {
     
     const handleScroll = () => {
       console.log(window.scrollY)
-      if(window.scrollY > 300){
+      if(window.pageYOffset > 300){
         setShow(true)
       }
       else{
