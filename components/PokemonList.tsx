@@ -34,6 +34,8 @@ const generateCountPercent = (pokemon: PokemonQueryResult[number]) => {
   return (votedFor / (votedFor + votedAgainst)) * 100;
 };
 const PokemonList: React.FC<{pokemons : PokemonQueryResult}> = ({pokemons}) => {
+
+    if(!pokemons) return null
     return(
         <Container>
         {pokemons.map((pokemon,index) => {
