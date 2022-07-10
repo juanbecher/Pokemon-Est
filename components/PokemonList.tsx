@@ -45,7 +45,7 @@ const PokemonList: React.FC<{pokemons : PokemonQueryResult}> = ({pokemons}) => {
                   align-items: center;
                 `}
               >
-                <Image src={pokemon.spriteUrl} width={96} height={96} />
+                <Image src={pokemon.spriteUrl} width={96} height={96} alt="PokemonImg"/>
                 <h3>{pokemon.name.toUpperCase()}</h3>
               </div>
               <div>
