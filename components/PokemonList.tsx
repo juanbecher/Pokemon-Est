@@ -5,18 +5,24 @@ import React from "react";
 import type { PokemonQueryResult } from "../src/pages/results";
 
 const Container = styled.div`
-  width: 600px;
+  max-width: 600px;
   margin: 0 auto;
 `;
 const PokemonCard = styled.div`
   margin: 10px 0;
+  padding: 0 5px;
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  justify-content: space-between;
+  /* grid-template-columns: 1fr 1fr; */
   align-items: center;
   border: 1px solid #133e6f;
   border-radius: 5px;
   background-color: #12305175;
+  @media (min-width: 768px) {
+    padding: 0 8%;
+  }
+  
 `;
 
 const Index = styled.div`
@@ -31,6 +37,20 @@ const Index = styled.div`
   background-color: #6c6b6b;
   border-radius: 50px;
 `;
+
+const Index2 = styled.div`
+  /* position: ; */
+  display: flex;
+  p{margin: auto;}
+  width: 46px;
+  height: 46px;
+  padding: 5px;
+  /* top: 25px;
+  left: 5px; */
+  background-color: #6c6b6b;
+  border-radius: 50px;
+`;
+
 const generateCountPercent = (pokemon: PokemonQueryResult[number]) => {
   const { votedFor, votedAgainst } = pokemon._count;
   if (votedFor + votedAgainst === 0) {
@@ -51,21 +71,29 @@ const PokemonList: React.FC<{ pokemons: PokemonQueryResult }> = ({
               className={css`
                 display: flex;
                 align-items: center;
-                margin-left:50px;
+                /* margin-left:50px; */
               `}
             >
+              <Index2><p>{index + 1}</p></Index2>
               <Image
                 src={pokemon.spriteUrl}
                 width={96}
                 height={96}
                 alt="PokemonImg"
               />
-              <h3>{pokemon.name.toUpperCase()}</h3>
+              <h4>{pokemon.name.toUpperCase()}</h4>
             </div>
-            <div>
-              <h3>{generateCountPercent(pokemon).toFixed(2)} %</h3>
+            <div className={css`
+              border-left: 3px solid #133e6f;
+              padding-left:10px;
+              height: 40px;
+              width: 90px;
+              display:flex;
+              align-items: center;
+            `}>
+              <h4>{generateCountPercent(pokemon).toFixed(2)} %</h4>
             </div>
-            <Index><p>{index + 1}</p></Index>
+            {/* <Index><p>{index + 1}</p></Index> */}
           </PokemonCard>
         );
       })}
