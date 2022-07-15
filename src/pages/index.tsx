@@ -28,13 +28,13 @@ const Separator = styled.div<{ size: string }>`
 `;
 
 const Home: NextPage = () => {
-  const [pokemonId, setPokemonId] = useState(() => getOptionsForVote());
+  const [pokemonsId, setPokemonId] = useState(() => getOptionsForVote());
 
-  const [first, second] = pokemonId;
+  const [first, second] = pokemonsId;
 
-  const pokemon1 = trpc.useQuery(["get-pokemons-by-id", { id: first }]);
-  const pokemon2 = trpc.useQuery(["get-pokemons-by-id", { id: second }]);
-
+  const {data: pokemonPair, isLoading} = trpc.useQuery(["get-pokemons-by-id", { list_id: pokemonsId }]);
+  // const secondPokemon = trpc.useQuery(["get-pokemons-by-id", { id: second }]);
+  // console.log("EN index pokemonpair; ", pokemonPair)
   const voteMutation = trpc.useMutation(["vote-for-pokemon"]);
 
   const voteForPokemon = (selected: number) => {
@@ -60,10 +60,8 @@ const Home: NextPage = () => {
 
         <Separator size={"100px"} />
         <ContentContainer>
-          {pokemon1.isLoading ||
-          pokemon2.isLoading ||
-          !pokemon1.data ||
-          !pokemon2.data ? (
+          {isLoading ||
+          !pokemonPair  ? (
             <div
               className={css`
                 padding: 100px;
@@ -74,14 +72,14 @@ const Home: NextPage = () => {
           ) : (
             <>
               <PokemonListing
-                pokemon={pokemon1.data}
+                pokemon={pokemonPair.firstPokemon}
                 vote={() => voteForPokemon(first)}
               />
               <div>
                 <p>vs</p>
               </div>
               <PokemonListing
-                pokemon={pokemon2.data}
+                pokemon={pokemonPair.secondPokemon}
                 vote={() => voteForPokemon(second)}
               />
             </>
@@ -92,7 +90,7 @@ const Home: NextPage = () => {
   );
 };
 
-type PokemonFromServer = inferQueryResponse<"get-pokemons-by-id">;
+type PokemonFromServer = inferQueryResponse<"get-pokemons-by-id">['firstPokemon'];
 
 const PokemonListing: React.FC<{
   pokemon: PokemonFromServer;
@@ -100,7 +98,7 @@ const PokemonListing: React.FC<{
 }> = (props) => {
   return (
     <PokemonCard>
-      {!props.pokemon.spriteUrl ? (
+      {!props.pokemon.id ? (
         <CircularProgress />
       ) : (
         <Image src={props.pokemon.spriteUrl} width={256} height={256} />

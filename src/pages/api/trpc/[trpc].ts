@@ -11,19 +11,38 @@ export const appRouter = trpc
   .query('get-pokemons-by-id', {
     input: z
       .object({
-        id: z.number(),
+        list_id: z.number().array(),
       }),
     async resolve({ input }) {
-      let pokemon_db = await prisma.pokemon.findFirst({
-      where: {id: input.id}} )
-      if(!pokemon_db){
+      const [first, second] = input.list_id
+      let bothPokemon = await prisma.pokemon.findMany({
+        where: { id: { in: [first, second] } },
+      });
+      console.log("pokemon length: ", bothPokemon.length)
+      if(bothPokemon.length != 2){
+        console.log("entro al api")
         const api = new PokemonClient();
-        const pokemon = await api.getPokemonById(input.id)
-        await prisma.pokemon.create({data : {name: pokemon.name , spriteUrl:pokemon.sprites.front_default || '', id: input.id}})
-        return {name: pokemon.name, spriteUrl: pokemon.sprites.front_default, id: pokemon.id};
+        let first_pokemon
+        let second_pokemon
+
+        if(bothPokemon[0].id != first || bothPokemon.length == 0){
+          console.log("calling api 1 ")
+          first_pokemon = await api.getPokemonById(first)
+          await prisma.pokemon.create({data : {name: first_pokemon.name , spriteUrl:first_pokemon.sprites.front_default || '', id: first}})
+          bothPokemon = [{name: first_pokemon.name , spriteUrl:first_pokemon.sprites.front_default || '', id: first}, bothPokemon[0]]
+        }
+        if(bothPokemon[0].id != second || bothPokemon.length == 0){
+          console.log("calling api 2 ")
+          second_pokemon = await api.getPokemonById(second)
+          await prisma.pokemon.create({data : {name: second_pokemon.name , spriteUrl:second_pokemon.sprites.front_default || '', id: second}})
+          bothPokemon = [bothPokemon[0], {name: second_pokemon.name , spriteUrl:second_pokemon.sprites.front_default || '', id: second}]
+        }
+
+        // return {firstPokemon: first_pokemon , secondPokemon: second_pokemon}
       }
       
-      return {name: pokemon_db.name, spriteUrl: pokemon_db.spriteUrl, id: pokemon_db.id};
+      return {firstPokemon: bothPokemon[0] , secondPokemon: bothPokemon[1]}
+      // return [bothPokemon[0] , bothPokemon[1]]
     },
   }).mutation('vote-for-pokemon', {
     input: z.object({
