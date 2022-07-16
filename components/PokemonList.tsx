@@ -61,7 +61,7 @@ const PokemonList: React.FC<{ pokemons: PokemonQueryResult }> = ({
   pokemons,
 }) => {
   if (!pokemons) return null;
-  if (pokemons.length == 0) return <p>Can't find any pokemon with that name</p>
+  if (pokemons.length == 0) return <p>Pokemon not found</p>
   return (
     <div>
       {pokemons.map((pokemon: PokemonQueryResult[number], index: number) => {

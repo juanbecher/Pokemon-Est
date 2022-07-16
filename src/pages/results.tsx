@@ -55,13 +55,13 @@ const Result: React.FC<{
   pokemons: PokemonQueryResult;
   totalVotes: number;
 }> = ({ pokemons, totalVotes }) => {
+  const [pokemon_list, setPokemon_list] = useState(pokemons)
   
   if (!pokemons) return null;
   
   pokemons = pokemons.sort(
     (a, b) => generateCountPercent(b) - generateCountPercent(a)
   );
-  const [pokemon_list, setPokemon_list] = useState(pokemons)
   
   const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input =  e.target.value
