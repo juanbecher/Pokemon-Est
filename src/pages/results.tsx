@@ -4,11 +4,23 @@ import { AsyncReturnType } from "../utils/ts-bs";
 import Layout from "../../components/Layout";
 import PokemonList from "../../components/PokemonList";
 import ScrollTop from "../../components/ScrollTop";
+import React, { useState } from "react";
+import InputText from '../../components/InputText'
+import TextField from '@mui/material/TextField';
 
 const Separator = styled.div<{ size: string }>`
   height: ${(props) => props.size};
   max-height: ${(props) => props.size};
 `;
+
+const Container = styled.div`
+  max-width: 600px;
+  margin: 0 auto;
+  p{
+    text-align:left;
+    margin: 10px 5px;
+  }
+`
 
 const getPokemonInOrder = async () => {
   return await prisma.pokemon.findMany({
@@ -43,18 +55,30 @@ const Result: React.FC<{
   pokemons: PokemonQueryResult;
   totalVotes: number;
 }> = ({ pokemons, totalVotes }) => {
+  
   if (!pokemons) return null;
+  
   pokemons = pokemons.sort(
     (a, b) => generateCountPercent(b) - generateCountPercent(a)
   );
+  const [pokemon_list, setPokemon_list] = useState(pokemons)
+  
+  const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input =  e.target.value
+    setPokemon_list(pokemons.filter(pokemon => pokemon.name.includes(input)))
+  }
 
   return (
     <Layout>
       <Separator size={"50px"} />
       <h1>Results - Cutest Pokemon </h1>
       <Separator size={"50px"} />
-      <h3>Total votes: {totalVotes.toLocaleString()}</h3>
-      <PokemonList pokemons={pokemons} />
+      <Container>
+      <InputText handleFilter={handleFilter}/>
+      <p>Total votes: {totalVotes.toLocaleString()}</p>
+      <PokemonList pokemons={pokemon_list} />
+      </Container>
+      
       <Separator size={"100px"} />
       
       <ScrollTop/>
