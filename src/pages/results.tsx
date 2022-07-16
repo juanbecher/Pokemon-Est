@@ -65,7 +65,7 @@ const Result: React.FC<{
   
   const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input =  e.target.value
-    setPokemon_list(pokemons.filter(pokemon => pokemon.name.includes(input)))
+    setPokemon_list(pokemons.filter(pokemon => pokemon.name.includes(input.toLowerCase())))
   }
 
   return (

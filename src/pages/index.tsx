@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 import { css, cx } from "@emotion/css";
 import { getOptionsForVote } from "../utils/getRandomPokemon";
 import { trpc } from "../utils/trpc";
-import { Button, CircularProgress } from "@mui/material";
+import { Button, capitalize, CircularProgress } from "@mui/material";
 import { inferQueryResponse } from "./api/trpc/[trpc]";
 import Image from "next/image";
 import Layout from "../../components/Layout";
@@ -104,7 +104,7 @@ const PokemonListing: React.FC<{
         <Image src={props.pokemon.spriteUrl} width={256} height={256} />
       )}
 
-      <h3>{props.pokemon.name.toUpperCase()}</h3>
+      <h3>{capitalize(props.pokemon.name)}</h3>
       <Separator size={"50px"} />
       <Button
         className={css`

@@ -6,6 +6,7 @@ import type { PokemonQueryResult } from "../src/pages/results";
 import ExpandLessRoundedIcon from "@mui/icons-material/ExpandLessRounded";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 import { green, red } from "@mui/material/colors";
+import { capitalize } from "@mui/material";
 
 
 const PokemonCard = styled.div`
@@ -57,6 +58,7 @@ const generateCountPercent = (pokemon: PokemonQueryResult[number]) => {
   }
   return (votedFor / (votedFor + votedAgainst)) * 100;
 };
+
 const PokemonList: React.FC<{ pokemons: PokemonQueryResult }> = ({
   pokemons,
 }) => {
@@ -82,7 +84,8 @@ const PokemonList: React.FC<{ pokemons: PokemonQueryResult }> = ({
                 height={96}
                 alt="PokemonImg"
               />
-              <h4>{pokemon.name.toUpperCase()}</h4>
+              {/* <h4>{pokemon.name.toUpperCase()}</h4> */}
+              <h4>{capitalize(pokemon.name)}</h4>
             </div>
             <div
               className={css`
